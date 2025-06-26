@@ -866,7 +866,7 @@ server <- function(input, output, session) {
       textposition = 'outside',
       cliponaxis = FALSE,
       textangle = 0,
-      textfont = list(size = 14, color = 'black'),
+      textfont = list(size = 11, color = 'black'),
       colors = c("#1E8449", "#D63384", "#1F77B4")
     ) %>%
       layout(uniformtext = list(minsize = 12, mode = 'show'))
@@ -1258,8 +1258,19 @@ server <- function(input, output, session) {
       values   = ~n,
       type     = 'pie',
       textinfo = 'percent',
-      textfont = list(size = 14, color = 'white'),
-      marker   = list(line = list(color = '#FFFFFF', width = 1))
+      textfont = list(size = 11, color = 'white'),
+      marker   = list(line = list(color = '#FFFFFF', width = 1)),
+      hole     = 0, 
+      domain = list(x = c(0.15, 0.70), y = c(1, 1))
+    ) %>% layout(
+      showlegend = TRUE,
+      legend = list(
+        orientation = 'h',
+        x = 0.38,
+        xanchor = 'center',
+        y = -0.1  
+      ),
+      margin = list(t = 20, b = 80)  
     )
   })
   
@@ -1288,14 +1299,16 @@ server <- function(input, output, session) {
     
     plot_ly(
       df,
-      x               = ~payment_method,
-      y               = ~n,
-      type            = 'bar',
-      text            = ~n,
-      textposition    = 'inside',
+      x = ~payment_method,
+      y = ~n,
+      type = 'bar',
+      text = ~n,
+      textposition = 'inside',
       insidetextanchor = 'middle',
-      textfont        = list(size = 14, color = 'white'),
-      marker          = list(color = "#1F77B4")
+      textfont = list(size = 12, color = 'white'),
+      marker = list(color = "#1F77B4")
+    ) %>% layout(
+      xaxis = list(tickfont = list(size = 10))  
     )
   })
 }
