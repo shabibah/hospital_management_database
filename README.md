@@ -1,1 +1,1 @@
-# hospital_management_database
+# Hospital Management Database
