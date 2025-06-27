@@ -1005,7 +1005,7 @@ server <- function(input, output, session) {
     if (nrow(df) == 0) {
       return(datatable(
         data.frame(Pesan = "Data tidak ditemukan"),
-        options = list(dom = 't')
+        options = list(dom = 't', scrollX = TRUE)
       ))
     }
     
@@ -1022,14 +1022,17 @@ server <- function(input, output, session) {
       ) %>%
       distinct()
     
-    datatable(df, options = list(dom = 't'))
+    datatable(df, options = list(dom = 't', scrollX = TRUE))
   })
   
   output$riwayatKunjungan <- renderDT({
     req(input$selected_patient, input$selected_patient_id)
+    
     df <- data %>%
-      filter(full_name == input$selected_patient,
-             patient_id == input$selected_patient_id) %>%
+      filter(
+        full_name == input$selected_patient,
+        patient_id == input$selected_patient_id
+      ) %>%
       arrange(appointment_date) %>%
       select(
         `Tanggal Janji`       = appointment_date,
@@ -1039,13 +1042,15 @@ server <- function(input, output, session) {
         `Status Janji`        = appointment_status,
         `Perawatan`           = treatment_type
       )
+    
     if (nrow(df) == 0) {
       return(datatable(
         data.frame(Pesan = "Tidak ada riwayat kunjungan"),
-        options = list(dom = 't')
+        options = list(dom = 't', scrollX = TRUE)
       ))
     }
-    datatable(df)
+    
+    datatable(df, options = list(scrollX = TRUE))
   })
   
   # ===============================
@@ -1128,9 +1133,6 @@ server <- function(input, output, session) {
     fluidRow(dokter_cards)
   })
   
-  # ===============================
-  # Tab: Janji Temu
-  # ===============================
   output$filteredAppointments <- renderDT({
     df <- filtered_data()
     
@@ -1154,7 +1156,7 @@ server <- function(input, output, session) {
         filter(doctor_specialization %in% input$dokterFilter)
     }
     
-    df %>%
+    df <- df %>%
       arrange(appointment_date) %>%
       select(
         `ID Pasien`           = patient_id,
@@ -1165,6 +1167,8 @@ server <- function(input, output, session) {
         `Alasan Kunjungan`    = visit_reason,
         `Status Janji`        = appointment_status
       )
+    
+    datatable(df, options = list(scrollX = TRUE))
   })
   
   # ===============================
