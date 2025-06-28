@@ -866,10 +866,12 @@ server <- function(input, output, session) {
       textposition = 'outside',
       cliponaxis = FALSE,
       textangle = 0,
-      textfont = list(size = 11, color = 'black'),
+      textfont = list(size = 10, color = 'black'),
       colors = c("#1E8449", "#D63384", "#1F77B4")
     ) %>%
-      layout(uniformtext = list(minsize = 12, mode = 'show'))
+      layout(uniformtext = list(minsize = 10, mode = 'show'),
+             xaxis = list(tickfont = list(size = 10))
+      )
   })
   
   output$costSpecialist <- renderPlotly({
